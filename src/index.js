@@ -1,19 +1,46 @@
 import _ from 'lodash';
 import printMe from './print.js';
 
+import * as THREE from 'three';
+
 function component() {
-    const element = document.createElement('div');
-    const btn = document.createElement('button');
-  
-    // Lodash, currently included via a script, is required for this line to work
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-  
-    btn.innerHTML = 'Click me and check the console!';
-    btn.onclick = printMe;
-  
-    element.appendChild(btn);
-  
-    return element;
-  }
-  
-  document.body.appendChild(component());
+    const canvas = document.createElement('canvas');
+
+    document.body.style.margin = "0";
+    document.body.style.padding = "0";
+    document.body.style.overflow = "hidden";
+
+    let canvasWidth = document.documentElement.clientWidth;
+    let canvasHeight = document.documentElement.clientHeight;
+
+    const scene = new THREE.Scene();
+
+    // CAMERA
+    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const cube = new THREE.Mesh( geometry, material );
+    scene.add( cube );
+
+    camera.position.z = 5;
+
+    const animate = function () {
+        requestAnimationFrame( animate );
+
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        renderer.render( scene, camera );
+    };
+
+    animate();
+
+    return canvas;
+}
+
+document.body.appendChild(component());
