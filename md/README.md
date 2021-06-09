@@ -19,5 +19,5 @@ The chapters of this book appear as numbered directories.  You should read them 
 
 Each chapter's directory contains numbered .md (markdown) files, You should also ready them in numerical sort-order.
 
-In other words, to get started, read `1 Introduction to CAGD/1.md` using Typora.
+In other words, to get started, read `1 Introduction to CAGD/1 In this topic, you will learn.md` using Typora.
 
