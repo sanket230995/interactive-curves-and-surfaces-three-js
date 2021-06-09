@@ -16,5 +16,7 @@ Directories often have their own README.md and TODO.md.  Consult these for detai
 
 One important thing you should know is that the directory `template/`   provides a simple webpack-based web client development toolchain for threejs. It is intended to be copied to a different (new) directory and modified.  
 
-`template/` has its own README.md (and TODO.md) which you should consult for details about how to perform this particular webpack-based development workflow using the toolchain provided.
+`template/` has its own README.md (and TODO.md) which you should consult for details about how to perform this particular webpack-based development workflow using the toolchain provided.  For example, README.md will tell you how to build, debug and deploy a program starting from `template/`.
+
+
 

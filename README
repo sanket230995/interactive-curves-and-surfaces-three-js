@@ -1,0 +1,7 @@
+The recommended toolset for this project is:
+
+Typora - a markdown editor (https://typora.io)
+NodeJS/Npm - for development (https://nodejs.org)
+WebStorm - for development (https://www.jetbrains.com/webstorm/)
+
+Install Typora first, and then use it to read README.md for next steps.
