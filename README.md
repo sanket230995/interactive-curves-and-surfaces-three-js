@@ -8,5 +8,13 @@ For example, start reading ` 1 Introduction to CAGD/1.md`
 
 
 
-There is a directory called `template/` in the project.  It is intended to be copied to a different (new) directory and modified.  It provides a simple webpack-based web client development tool-chain for threejs.  It uses npm.  It has its own README.md (and TODO.md) which you should consult for details.
+### What are all these directories and files for?
+
+Consult the file .readme.md for descriptions of each file/directory in this project.
+
+Directories often have their own README.md and TODO.md.  Consult these for details on what's going on in that directory.
+
+One important thing you should know is that the directory `template/`   provides a simple webpack-based web client development toolchain for threejs. It is intended to be copied to a different (new) directory and modified.  
+
+`template/` has its own README.md (and TODO.md) which you should consult for details about how to perform this particular webpack-based development workflow using the toolchain provided.
 
