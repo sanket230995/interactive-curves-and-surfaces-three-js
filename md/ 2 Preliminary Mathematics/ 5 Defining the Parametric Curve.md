@@ -12,5 +12,9 @@ As $t$ varies from zero to 2 , a circle is swept out by $(x(t), y(t))$.
 
 Write an application in threejs using `template/` as a starting point that has all the same elements and functions of the one shown in image 2.1.
 
-You can check out our solution to Exercise 2.1 by looking in Solution 2.1.  You can also work your way through Tutorial 2.1 to learn how we came up with our solution.
+You can check out our solution to Exercise 2.1 by looking in `solutions/exercise-2.1/`.  You can also work your way through `tutorials/Exercise 2.1/` to learn how we came up with our solution.
+
+
+
+ NOTE: In case you are wondering why we used a different naming convention for `solutions/exercise-2.1` than we did for `tutorials/Exercise 2.1` it is because the former is more computer-friendly, and the latter is more human-friendly.
 
