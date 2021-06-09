@@ -1,7 +1,4 @@
-​	Location 166 of 968
+How to handle exercises.
 
-​	Add  2 Preliminary Mathematics/1.md
+How to autograde them.
 
-2 The Mathematics of CAGD
-
- 
