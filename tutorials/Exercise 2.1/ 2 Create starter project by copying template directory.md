@@ -36,11 +36,9 @@ Now we test the new project by typing `npm run start`. This runs a *script* call
 
 ![1623265474613](.md/ 1 Create starter project by copying template directory/1623265474613.png)
 
-When you execute `npm run start`, npm actually executes `webpack serve --open`.  This causes webpack to perform a build, which creates a **virtual** `index.html` and`index.bundle.js` **in memory**, which it then serves on `localhost:8080` using `webpack-dev-server`.  This should leave your Dolphin session looking something like this:
+When you execute `npm run start`, npm actually executes `webpack server --open`.  This causes webpack to perform a build, which creates a virtual`index.html` and`index.bundle.js` in memory, which it then serves on `localhost:8080` using `webpack-dev-server`.  This should leave your Dolphin session looking something like this:
 
 ![1623265797300](.md/ 1 Create starter project by copying template directory/1623265797300.png)
-
-As you'll see later, you can create actual `dist/index.html` and `dist/index.bundle.js` files by running `npm run build`.
 
 You should see a browser window open as well, which will look something like this (the cube should be rotating because it is animated):
 
