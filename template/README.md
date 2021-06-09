@@ -60,5 +60,10 @@ NOTE: You can terminate the webpack-dev-server by typing ^C .  The browser insta
 
 ### 3. Modify the code and observe any changes
 
-1. 
+* There is a single source file called `src/index.js`. Webpack creates `dist/index.html` automatically based on instructions in `webpack.config.js` 
+* `index.js` imports THREE from `node_modules/` and calls the function main().
 
+* When you ran `npm run start`, webpack created `dist/index.html`, webpack-dev-server started serving `dist/` as the web root at localhost:8080, and webpack spawned a browser window at localhost:8080.  
+  Thereafter, webpack-dev-server listens for any changes in the source tree and refreshes the browser contents automatically so you can see changes right away.
+
+* It is really that easy!
