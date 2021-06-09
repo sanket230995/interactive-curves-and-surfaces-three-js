@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import printMe from './print.js';
 
 import * as THREE from 'three';
 
-function component() {
+function main() {
     const canvas = document.createElement('canvas');
 
     document.body.style.margin = "0";
@@ -40,7 +39,7 @@ function component() {
 
     animate();
 
-    return canvas;
+    document.body.appendChild(canvas);
 }
 
-document.body.appendChild(component());
+main()

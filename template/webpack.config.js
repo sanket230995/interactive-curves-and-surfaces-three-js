@@ -8,7 +8,6 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
     index: './src/index.js',
-    print: './src/print.js',
   },
   mode: 'development',
   output: {

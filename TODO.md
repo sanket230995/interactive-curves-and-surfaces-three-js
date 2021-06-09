@@ -4,11 +4,11 @@ In particular, make sure to mention that template/ may be copied, and that it ha
 
 
 
-CAGD: From Points to Teapots
+The History of CAGD
 
-​	Location 131 of 968
+​	Location 142 of 968
 
-​	Add md/ 1 Introduction to CAGD/4.md
+​	Add md/ 1 Introduction to CAGD/9.md
 
 
 
