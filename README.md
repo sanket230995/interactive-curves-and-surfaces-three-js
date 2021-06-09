@@ -8,3 +8,5 @@ For example, start reading ` 1 Introduction to CAGD/1.md`
 
 
 
+There is a directory called `template/` in the project.  It is intended to be copied to a different (new) directory and modified.  It provides a simple webpack-based web client development tool-chain for threejs.  It uses npm.  It has its own README.md (and TODO.md) which you should consult for details.
+
