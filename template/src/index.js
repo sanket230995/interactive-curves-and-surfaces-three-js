@@ -1,16 +1,9 @@
-import _ from 'lodash';
-
 import * as THREE from 'three';
 
 function main() {
-    const canvas = document.createElement('canvas');
-
     document.body.style.margin = "0";
     document.body.style.padding = "0";
     document.body.style.overflow = "hidden";
-
-    let canvasWidth = document.documentElement.clientWidth;
-    let canvasHeight = document.documentElement.clientHeight;
 
     const scene = new THREE.Scene();
 
