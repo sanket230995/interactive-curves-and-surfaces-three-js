@@ -38,8 +38,6 @@ function main() {
     };
 
     animate();
-
-    document.body.appendChild(canvas);
 }
 
 main()
