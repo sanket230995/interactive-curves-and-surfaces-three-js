@@ -1,39 +1,131 @@
-import _ from 'lodash';
-
 import * as THREE from 'three';
 
 function main() {
-    const canvas = document.createElement('canvas');
+    function drawCircleGraph(x, y) {
+        function drawCircle(x, y) {
+            const curve = new THREE.EllipseCurve(
+                x, y,            // ax, aY
+                1, 1,           // xRadius, yRadius
+                0, 2 * Math.PI,  // aStartAngle, aEndAngle
+                false,            // aClockwise
+                0                 // aRotation
+            );
+
+            const points = curve.getPoints(64);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+            // Create the final object to add to the scene
+            return new THREE.Line(geometry, material);
+        }
+
+        let group = new THREE.Group();
+
+        group.add(drawXAxis(x, y, 2));
+        group.add(drawYAxis(x, y, 2));
+        group.add(drawCircle(x, y));
+
+        return group;
+    }
+
+    function drawCosineGraph(x, y) {
+        function drawCosineCurve(x, y) {
+            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+            // const points = curve.getPoints(64)
+
+            const points = [];
+
+            for (let i = 0; i <= 64; i++) {
+                points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.cos(2 * Math.PI * i / 64), 0));
+            }
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            // Create the final object to add to the scene
+            return new THREE.Line(geometry, material);
+        }
+
+        let group = new THREE.Group();
+
+        group.add(drawXAxis(x + 2, y, 2 * Math.PI));
+        group.add(drawYAxis(x + 2, y, 2));
+        group.add(drawCosineCurve(x + 2 - Math.PI, y));
+
+        return group;
+    }
+
+    function drawSineGraph(x, y) {
+        function drawSine(x, y) {
+            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+            // const points = curve.getPoints(64)
+
+            const points = [];
+
+            for (let i = 0; i <= 64; i++) {
+                points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.sin(2 * Math.PI * i / 64), 0));
+            }
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            // Create the final object to add to the scene
+            return new THREE.Line(geometry, material);
+        }
+
+        let group = new THREE.Group();
+
+        group.add(drawXAxis(x + 2, y, 2 * Math.PI));
+        group.add(drawYAxis(x + 2, y, 2));
+        group.add(drawSine(x + 2 - Math.PI, y, 4));
+
+        return group;
+    }
+
+    function drawXAxis(x, y, length) {
+        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
+        const points = [];
+        points.push(new THREE.Vector3(x - length / 2, y, 0));
+        points.push(new THREE.Vector3(x + length / 2, y, 0));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        return new THREE.Line(geometry, material);
+    }
+
+    function drawYAxis(x, y, length) {
+        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
+        const points = [];
+        points.push(new THREE.Vector3(x, y - length / 2, 0));
+        points.push(new THREE.Vector3(x, y + length / 2, 0));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        return new THREE.Line(geometry, material);
+    }
+
 
     document.body.style.margin = "0";
     document.body.style.padding = "0";
     document.body.style.overflow = "hidden";
 
-    let canvasWidth = document.documentElement.clientWidth;
-    let canvasHeight = document.documentElement.clientHeight;
-
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(THREE.Color.NAMES['darkgray']);
+    scene.background = new THREE.Color(THREE.Color.NAMES['white']);
 
     // CAMERA
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera.position.z = 5;
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    const cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
+    scene.add(drawCircleGraph(-3.5, 0) );
+    scene.add(drawCosineGraph(-0.5, 1.25));
+    scene.add(drawSineGraph(-0.5, -1.25));
 
-    camera.position.z = 5;
+
 
     const animate = function () {
-        // requestAnimationFrame( animate );
-        //
-        // cube.rotation.x += 0.01;
-        // cube.rotation.y += 0.01;
 
         renderer.render( scene, camera );
     };
