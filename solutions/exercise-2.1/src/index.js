@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import katex from 'katex';
 
 function main() {
     function drawCircleGraph(x, y) {
@@ -25,6 +26,27 @@ function main() {
         group.add(drawXAxis(x, y, 2));
         group.add(drawYAxis(x, y, 2));
         group.add(drawCircle(x, y));
+
+        // Use HTML/CSS to create text
+
+        // create a new div element
+        const div = document.createElement("div");
+        document.body.appendChild(div);
+
+        div.style.position = 'absolute';
+        div.style.top = '30px';
+        div.style.left = '50px';
+        //div.style.width = '100%';
+        //div.style.textAlign = 'center';
+        div.style.zIndex = 10;
+        //div.style.display = 'block';
+
+        // and give it some content
+        katex.render('c = \\pm\\sqrt{a^2 + b^2}', div, {
+            throwOnError: false
+        });
+
+        // add the newly created element and its content into the DOM
 
         return group;
     }
