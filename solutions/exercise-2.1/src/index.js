@@ -12,6 +12,19 @@ function drawXAxis(x, y, length) {
     return new THREE.Line(geometry, material);
 }
 
+class XAxis extends THREE.Line {
+    constructor(x, y, length) {
+        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
+        const points = [];
+        points.push(new THREE.Vector3(x - length / 2, y, 0));
+        points.push(new THREE.Vector3(x + length / 2, y, 0));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        super(geometry, material);
+    }
+}
+
 function drawYAxis(x, y, length) {
     const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
     const points = [];
@@ -20,6 +33,18 @@ function drawYAxis(x, y, length) {
 
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     return new THREE.Line(geometry, material);
+}
+
+class YAxis extends THREE.Line {
+    constructor(x, y, length) {
+        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
+        const points = [];
+        points.push(new THREE.Vector3(x, y - length / 2, 0));
+        points.push(new THREE.Vector3(x, y + length / 2, 0));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        super(geometry, material);
+    }
 }
 
 class Circle extends THREE.Line {
@@ -82,8 +107,8 @@ class CircleGraph extends THREE.Group {
 
         super();
 
-        this.add(drawXAxis(x, y, 2));
-        this.add(drawYAxis(x, y, 2));
+        this.add(new XAxis(x, y, 2));
+        this.add(new YAxis(x, y, 2));
         this.add(new Circle(x, y, 1));
         this.add(drawPointOnCircleGraphMarker(x, y));
 
