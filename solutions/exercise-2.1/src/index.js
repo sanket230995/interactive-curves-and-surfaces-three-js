@@ -73,7 +73,10 @@ class PointOnCircleMarker extends THREE.Group {
     }
 
     moveToNextPoint() {
-        this.index = this.index < this.circle.points.length ? this.index + 1 : this.index = 0;
+        this.index++;
+        if (this.index >= this.circle.points.length) {
+            this.index = 0;
+        }
         this.position.x = this.circle.points[this.index].x;
         this.position.y = this.circle.points[this.index].y;
     }
@@ -200,9 +203,9 @@ function main() {
 
 
     const animate = function () {
-        // requestAnimationFrame( animate );
-        //
-        // circleGraph.pointOnCircleMarker.moveToNextPoint();
+        requestAnimationFrame( animate );
+
+        circleGraph.pointOnCircleMarker.moveToNextPoint();
 
         renderer.render( scene, camera );
     };
