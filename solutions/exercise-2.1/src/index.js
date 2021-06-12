@@ -68,6 +68,27 @@ class Circle extends THREE.Line {
 }
 
 class CircleGraph extends THREE.Group {
+
+    static PointOnGraphMarker = class extends THREE.Group {
+        constructor(x, y) {
+            const curve = new THREE.EllipseCurve(
+                x + 1, y,            // aX, aY
+                0.05, 0.05,           // xRadius, yRadius
+                0, 2 * Math.PI,  // aStartAngle, aEndAngle
+                false,            // aClockwise
+                0                 // aRotation
+            );
+
+            const points = curve.getPoints(64);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            const material = new THREE.PointsMaterial({color: 0, size: 5});
+
+            // Create the final object to add to the scene
+            super(geometry, material);
+        }
+    };
+
     constructor(x, y) {
         function drawCircle(x, y) {
             const curve = new THREE.EllipseCurve(
@@ -110,7 +131,7 @@ class CircleGraph extends THREE.Group {
         this.add(new XAxis(x, y, 2));
         this.add(new YAxis(x, y, 2));
         this.add(new Circle(x, y, 1));
-        this.add(drawPointOnCircleGraphMarker(x, y));
+        this.add(new CircleGraph.PointOnGraphMarker(x, y));
 
         // Use HTML/CSS to create text
 
