@@ -36,29 +36,31 @@ class Circle extends THREE.Line {
             0                 // aRotation
         );
 
-        const points = curve.getPoints(64);
+        let points = curve.getPoints(64); // Save points so that pointOnCircleMarker may use them.
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
         const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
 
         // Create the final object to add to the scene
         super(geometry, material);
+
+        this.points = points;
     }
 }
 
 class CircleGraph extends THREE.Group {
 
     static PointOnCircleMarker = class extends THREE.Group {
-        constructor(x, y) {
+        constructor(circle) {
             const curve = new THREE.EllipseCurve(
-                x + 1, y,            // aX, aY
+                circle.points[0].x, circle.points[0].y,            // aX, aY
                 0.05, 0.05,           // xRadius, yRadius
                 0, 2 * Math.PI,  // aStartAngle, aEndAngle
                 false,            // aClockwise
                 0                 // aRotation
             );
 
-            const points = curve.getPoints(64);
+            const points = curve.getPoints(16);
             const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
             const material = new THREE.PointsMaterial({color: 0, size: 5});
@@ -69,31 +71,13 @@ class CircleGraph extends THREE.Group {
     };
 
     constructor(x, y) {
-
-        function drawPointOnCircleGraphMarker(x, y) {
-            const curve = new THREE.EllipseCurve(
-                x + 1, y,            // aX, aY
-                0.05, 0.05,           // xRadius, yRadius
-                0, 2 * Math.PI,  // aStartAngle, aEndAngle
-                false,            // aClockwise
-                0                 // aRotation
-            );
-
-            const points = curve.getPoints(64);
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-            const material = new THREE.PointsMaterial({color: 0, size: 5});
-
-            // Create the final object to add to the scene
-            return new THREE.Line(geometry, material);
-        }
-
         super();
 
         this.add(new XAxis(x, y, 2));
         this.add(new YAxis(x, y, 2));
-        this.add(new Circle(x, y, 1));
-        this.pointOnCircleMarker = new CircleGraph.PointOnCircleMarker(x, y);
+        let circle = new Circle(x, y, 1)
+        this.add(circle);
+        this.pointOnCircleMarker = new CircleGraph.PointOnCircleMarker(circle);
         this.add(this.pointOnCircleMarker);
 
         // Use HTML/CSS to create text
