@@ -1,7 +1,7 @@
 Code the static font parts of the thing.
 
-Code the dynamic circleGraphCoordinateMarker.
+Code the dynamic pointOnCircleGraphMarker.
 
-Code the dynamic cosineGraphCoordinateMarker.
+Code the dynamic pointOnCosineGraphMarker.
 
-Code the dynamic sineGraphCoordinateMarker.
+Code the dynamic pointOnSineGraphMarker.

@@ -21,11 +21,30 @@ function main() {
             return new THREE.Line(geometry, material);
         }
 
+        function drawPointOnCircleGraphMarker(x, y) {
+            const curve = new THREE.EllipseCurve(
+                x + 1, y,            // aX, aY
+                0.05, 0.05,           // xRadius, yRadius
+                0, 2 * Math.PI,  // aStartAngle, aEndAngle
+                false,            // aClockwise
+                0                 // aRotation
+            );
+
+            const points = curve.getPoints(64);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            const material = new THREE.PointsMaterial({color: 0, size: 5});
+
+            // Create the final object to add to the scene
+            return new THREE.Line(geometry, material);
+        }
+
         let group = new THREE.Group();
 
         group.add(drawXAxis(x, y, 2));
         group.add(drawYAxis(x, y, 2));
         group.add(drawCircle(x, y));
+        group.add(drawPointOnCircleGraphMarker(x, y));
 
         // Use HTML/CSS to create text
 
@@ -33,18 +52,18 @@ function main() {
         const div = document.createElement("div");
         document.body.appendChild(div);
 
-        div.style.position = 'absolute';
-        div.style.top = '30px';
-        div.style.left = '50px';
-        //div.style.width = '100%';
-        //div.style.textAlign = 'center';
-        div.style.zIndex = 10;
-        //div.style.display = 'block';
-
-        // and give it some content
-        katex.render('c = \\pm\\sqrt{a^2 + b^2}', div, {
-            throwOnError: false
-        });
+        // div.style.position = 'absolute';
+        // div.style.top = '30px';
+        // div.style.left = '50px';
+        // //div.style.width = '100%';
+        // //div.style.textAlign = 'center';
+        // div.style.zIndex = 10;
+        // //div.style.display = 'block';
+        //
+        // // and give it some content
+        // katex.render('c = \\pm\\sqrt{a^2 + b^2}', div, {
+        //     throwOnError: false
+        // });
 
         // add the newly created element and its content into the DOM
 
