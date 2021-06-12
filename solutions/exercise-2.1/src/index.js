@@ -1,17 +1,6 @@
 import * as THREE from 'three';
 import katex from 'katex';
 
-
-function drawXAxis(x, y, length) {
-    const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
-    const points = [];
-    points.push(new THREE.Vector3(x - length / 2, y, 0));
-    points.push(new THREE.Vector3(x + length / 2, y, 0));
-
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    return new THREE.Line(geometry, material);
-}
-
 class XAxis extends THREE.Line {
     constructor(x, y, length) {
         const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
@@ -23,16 +12,6 @@ class XAxis extends THREE.Line {
 
         super(geometry, material);
     }
-}
-
-function drawYAxis(x, y, length) {
-    const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
-    const points = [];
-    points.push(new THREE.Vector3(x, y - length / 2, 0));
-    points.push(new THREE.Vector3(x, y + length / 2, 0));
-
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    return new THREE.Line(geometry, material);
 }
 
 class YAxis extends THREE.Line {
@@ -69,7 +48,7 @@ class Circle extends THREE.Line {
 
 class CircleGraph extends THREE.Group {
 
-    static PointOnGraphMarker = class extends THREE.Group {
+    static PointOnCircleMarker = class extends THREE.Group {
         constructor(x, y) {
             const curve = new THREE.EllipseCurve(
                 x + 1, y,            // aX, aY
@@ -90,23 +69,6 @@ class CircleGraph extends THREE.Group {
     };
 
     constructor(x, y) {
-        function drawCircle(x, y) {
-            const curve = new THREE.EllipseCurve(
-                x, y,            // ax, aY
-                1, 1,           // xRadius, yRadius
-                0, 2 * Math.PI,  // aStartAngle, aEndAngle
-                false,            // aClockwise
-                0                 // aRotation
-            );
-
-            const points = curve.getPoints(64);
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
-
-            // Create the final object to add to the scene
-            return new THREE.Line(geometry, material);
-        }
 
         function drawPointOnCircleGraphMarker(x, y) {
             const curve = new THREE.EllipseCurve(
@@ -131,7 +93,8 @@ class CircleGraph extends THREE.Group {
         this.add(new XAxis(x, y, 2));
         this.add(new YAxis(x, y, 2));
         this.add(new Circle(x, y, 1));
-        this.add(new CircleGraph.PointOnGraphMarker(x, y));
+        this.pointOnCircleMarker = new CircleGraph.PointOnCircleMarker(x, y);
+        this.add(this.pointOnCircleMarker);
 
         // Use HTML/CSS to create text
 
@@ -177,8 +140,8 @@ function main() {
 
         let group = new THREE.Group();
 
-        group.add(drawXAxis(x + 2, y, 2 * Math.PI));
-        group.add(drawYAxis(x + 2, y, 2));
+        group.add(new XAxis(x + 2, y, 2 * Math.PI));
+        group.add(new YAxis(x + 2, y, 2));
         group.add(drawCosineCurve(x + 2 - Math.PI, y));
 
         return group;
@@ -204,31 +167,11 @@ function main() {
 
         let group = new THREE.Group();
 
-        group.add(drawXAxis(x + 2, y, 2 * Math.PI));
-        group.add(drawYAxis(x + 2, y, 2));
+        group.add(new XAxis(x + 2, y, 2 * Math.PI));
+        group.add(new YAxis(x + 2, y, 2));
         group.add(drawSine(x + 2 - Math.PI, y, 4));
 
         return group;
-    }
-
-    function drawXAxis(x, y, length) {
-        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
-        const points = [];
-        points.push(new THREE.Vector3(x - length / 2, y, 0));
-        points.push(new THREE.Vector3(x + length / 2, y, 0));
-
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        return new THREE.Line(geometry, material);
-    }
-
-    function drawYAxis(x, y, length) {
-        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
-        const points = [];
-        points.push(new THREE.Vector3(x, y - length / 2, 0));
-        points.push(new THREE.Vector3(x, y + length / 2, 0));
-
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        return new THREE.Line(geometry, material);
     }
 
 
@@ -247,13 +190,18 @@ function main() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    scene.add(new CircleGraph(-3.5, 0) );
+    const circleGraph = new CircleGraph(-3.5, 0);
+
+    scene.add( circleGraph );
     scene.add(drawCosineGraph(-0.5, 1.25));
     scene.add(drawSineGraph(-0.5, -1.25));
 
 
 
     const animate = function () {
+        // requestAnimationFrame( animate );
+        //
+        // circleGraph.pointOnGraphMarker.moveToNextPoint();
 
         renderer.render( scene, camera );
     };
