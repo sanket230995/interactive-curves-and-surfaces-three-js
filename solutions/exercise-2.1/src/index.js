@@ -1,8 +1,49 @@
 import * as THREE from 'three';
 import katex from 'katex';
 
-function main() {
-    function drawCircleGraph(x, y) {
+
+function drawXAxis(x, y, length) {
+    const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
+    const points = [];
+    points.push(new THREE.Vector3(x - length / 2, y, 0));
+    points.push(new THREE.Vector3(x + length / 2, y, 0));
+
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    return new THREE.Line(geometry, material);
+}
+
+function drawYAxis(x, y, length) {
+    const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
+    const points = [];
+    points.push(new THREE.Vector3(x, y - length / 2, 0));
+    points.push(new THREE.Vector3(x, y + length / 2, 0));
+
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    return new THREE.Line(geometry, material);
+}
+
+class Circle extends THREE.Line {
+    constructor(x, y, r) {
+        const curve = new THREE.EllipseCurve(
+            x, y,            // ax, aY
+            r, r,           // xRadius, yRadius
+            0, 2 * Math.PI,  // aStartAngle, aEndAngle
+            false,            // aClockwise
+            0                 // aRotation
+        );
+
+        const points = curve.getPoints(64);
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+        // Create the final object to add to the scene
+        super(geometry, material);
+    }
+}
+
+class CircleGraph extends THREE.Group {
+    constructor(x, y) {
         function drawCircle(x, y) {
             const curve = new THREE.EllipseCurve(
                 x, y,            // ax, aY
@@ -39,18 +80,18 @@ function main() {
             return new THREE.Line(geometry, material);
         }
 
-        let group = new THREE.Group();
+        super();
 
-        group.add(drawXAxis(x, y, 2));
-        group.add(drawYAxis(x, y, 2));
-        group.add(drawCircle(x, y));
-        group.add(drawPointOnCircleGraphMarker(x, y));
+        this.add(drawXAxis(x, y, 2));
+        this.add(drawYAxis(x, y, 2));
+        this.add(new Circle(x, y, 1));
+        this.add(drawPointOnCircleGraphMarker(x, y));
 
         // Use HTML/CSS to create text
 
         // create a new div element
-        const div = document.createElement("div");
-        document.body.appendChild(div);
+        // const div = document.createElement("div");
+        // document.body.appendChild(div);
 
         // div.style.position = 'absolute';
         // div.style.top = '30px';
@@ -66,10 +107,10 @@ function main() {
         // });
 
         // add the newly created element and its content into the DOM
-
-        return group;
     }
+}
 
+function main() {
     function drawCosineGraph(x, y) {
         function drawCosineCurve(x, y) {
             const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
@@ -160,7 +201,7 @@ function main() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    scene.add(drawCircleGraph(-3.5, 0) );
+    scene.add(new CircleGraph(-3.5, 0) );
     scene.add(drawCosineGraph(-0.5, 1.25));
     scene.add(drawSineGraph(-0.5, -1.25));
 
