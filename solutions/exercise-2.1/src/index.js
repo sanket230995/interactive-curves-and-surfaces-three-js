@@ -51,7 +51,7 @@ class Circle extends THREE.Line {
 class PointOnCircleMarker extends THREE.Group {
     constructor(circle) {
         const curve = new THREE.EllipseCurve(
-            circle.position.x, circle.position.y,            // ax, aY
+            0, 0,            // ax, aY
             0.05, 0.05,           // xRadius, yRadius
             0, 2 * Math.PI,  // aStartAngle, aEndAngle
             false,            // aClockwise
@@ -64,22 +64,38 @@ class PointOnCircleMarker extends THREE.Group {
         const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
 
         // Create the final object to add to the scene
-        return new THREE.Line(geometry, material);
+        super();
+
+        this.circle = circle;
+        this.index = 0;
+
+        this.add(new THREE.Line(geometry, material));
     }
+
+    moveToNextPoint() {
+        this.index = this.index < this.circle.points.length ? this.index + 1 : this.index = 0;
+        this.position.x = this.circle.points[this.index].x;
+        this.position.y = this.circle.points[this.index].y;
+    }
+
 }
 
 class CircleGraph extends THREE.Group {
-
     constructor(x, y) {
         super();
 
-        this.add(new XAxis(x, y, 2));
-        this.add(new YAxis(x, y, 2));
-        let circle = new Circle(x, y, 1)
+        this.add(new XAxis(0, 0, 2));
+        this.add(new YAxis(0, 0, 2));
+        let circle = new Circle(0, 0, 1)
         this.add(circle);
 
         this.pointOnCircleMarker = new PointOnCircleMarker(circle);
+        this.pointOnCircleMarker.position.x = circle.points[0].x;
+        this.pointOnCircleMarker.position.y = circle.points[0].y;
         this.add(this.pointOnCircleMarker);
+
+        this.position.x = x;
+        this.position.y = y;
 
         // Use HTML/CSS to create text
 
@@ -186,7 +202,7 @@ function main() {
     const animate = function () {
         // requestAnimationFrame( animate );
         //
-        // circleGraph.pointOnGraphMarker.moveToNextPoint();
+        // circleGraph.pointOnCircleMarker.moveToNextPoint();
 
         renderer.render( scene, camera );
     };
