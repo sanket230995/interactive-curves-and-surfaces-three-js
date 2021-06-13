@@ -51,6 +51,31 @@ class YAxis extends THREE.Line {
     }
 }
 
+class YHalfAxis extends THREE.Line {
+    constructor(x, y, length) {
+        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
+        const points = [];
+        points.push(new THREE.Vector3(x, y, 0));
+        points.push(new THREE.Vector3(x, y + length, 0));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        super(geometry, material);
+
+        this._points = points;
+    }
+
+    set length(length) {
+        this._length = length;
+        this._points[1] = new THREE.Vector3(this.position.x, length, 0);
+        this.geometry.setFromPoints(this._points);
+    }
+
+    get length() {
+        return this._length;
+    }
+}
+
 class Circle extends THREE.Line {
     constructor(x, y, r) {
         const curve = new THREE.EllipseCurve(
@@ -104,7 +129,8 @@ class PointOnCircleMarker extends THREE.Group {
         }
 
         { // This the y-half-axis
-
+            this.yHalfAxis = new YHalfAxis(0, 0, 0);
+            this.add(this.yHalfAxis)
         }
     }
 
@@ -117,6 +143,7 @@ class PointOnCircleMarker extends THREE.Group {
         this.position.y = this.circle.points[this.index].y;
 
         this.xHalfAxis.length = -this.circle.points[this.index].x;
+        this.yHalfAxis.length = -this.circle.points[this.index].y;
     }
 
 }
