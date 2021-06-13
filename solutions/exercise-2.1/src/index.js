@@ -53,7 +53,7 @@ class YAxis extends THREE.Line {
 
 class YHalfAxis extends THREE.Line {
     constructor(x, y, length) {
-        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
+        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
         const points = [];
         points.push(new THREE.Vector3(x, y, 0));
         points.push(new THREE.Vector3(x, y + length, 0));
@@ -101,8 +101,10 @@ class Circle extends THREE.Line {
 }
 
 class PointOnCosineMarker extends THREE.Group {
-    constructor(cosineGraph) {
+    constructor(cosine) {
         super();
+        this.cosine = cosine;
+        this.index = 0;
 
         { // This is the little circle.
             const curve = new THREE.EllipseCurve(
@@ -118,8 +120,6 @@ class PointOnCosineMarker extends THREE.Group {
 
             const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
 
-            this.cosineGraph = cosineGraph;
-            this.index = 0;
             this.add(new THREE.Line(geometry, material));
         }
 
@@ -136,55 +136,61 @@ class PointOnCosineMarker extends THREE.Group {
 
     moveToNextPoint() {
         this.index++;
-        if (this.index >= this.cosineGraph.points.length) {
+        if (this.index >= this.cosine.points.length) {
             this.index = 0;
         }
-        this.position.x = this.cosineGraph.points[this.index].x;
-        this.position.y = this.cosineGraph.points[this.index].y;
+        this.position.x = this.cosine.points[this.index].x;
+        this.position.y = this.cosine.points[this.index].y;
 
-        this.xHalfAxis.length = -this.cosineGraph.points[this.index].x;
-        this.yHalfAxis.length = -this.cosineGraph.points[this.index].y;
+        this.xHalfAxis.length = -this.cosine.points[this.index].x;
+        this.yHalfAxis.length = -this.cosine.points[this.index].y;
     }
 
 }
 
-class CosineGraph extends THREE.Group {
+class Cosine extends THREE.Line {
     constructor(x, y) {
-        function drawCosineCurve(x, y) {
-            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+        const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
 
-            // const points = curve.getPoints(64)
+        // const points = curve.getPoints(64)
 
-            const points = [];
+        const points = [];
 
-            for (let i = 0; i <= 64; i++) {
-                points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.cos(2 * Math.PI * i / 64), 0));
-            }
-
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-            return new THREE.Line(geometry, material);
+        for (let i = 0; i <= 64; i++) {
+            points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.cos(2 * Math.PI * i / 64), 0));
         }
 
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        super(geometry, material);
+
+        this.points = points;
+    }
+}
+
+class CosineGraph extends THREE.Group {
+    constructor(x, y) {
         super();
         this.add(new XAxis(x + 2, y, 2 * Math.PI));
         this.add(new YAxis(x + 2, y, 2));
-        this.add(drawCosineCurve(x + 2 - Math.PI, y));
+        let cosine = new Cosine(x + 2 - Math.PI, y);
+        this.add(cosine);
 
-//         this.pointOnCosineMarker = new PointOnCosineMarker(this);
-//         this.pointOnCosineMarker.position.x = this.points[0].x;
-//         this.pointOnCosineMarker.position.y = this.points[0].y;
-//         this.add(this.pointOnCosineMarker);
-//
-//         this.position.x = x;
-//         this.position.y = y;
-//
+        // this.pointOnCosineMarker = new PointOnCosineMarker(cosine);
+        // this.pointOnCosineMarker.position.x = this.points[0].x;
+        // this.pointOnCosineMarker.position.y = this.points[0].y;
+        // this.add(this.pointOnCosineMarker);
+        //
+        // this.position.x = x;
+        // this.position.y = y;
     }
 }
 
 class PointOnCircleMarker extends THREE.Group {
     constructor(circle) {
         super();
+        this.circle = circle;
+        this.index = 0;
 
         { // This is the little circle.
             const curve = new THREE.EllipseCurve(
@@ -200,8 +206,6 @@ class PointOnCircleMarker extends THREE.Group {
 
             const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
 
-            this.circle = circle;
-            this.index = 0;
             this.add(new THREE.Line(geometry, material));
         }
 
