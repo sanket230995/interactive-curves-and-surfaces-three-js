@@ -14,6 +14,31 @@ class XAxis extends THREE.Line {
     }
 }
 
+class XHalfAxis extends THREE.Line {
+    constructor(x, y, length) {
+        const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['red'], linewidth: 1});
+        const points = [];
+        points.push(new THREE.Vector3(x, y, 0));
+        points.push(new THREE.Vector3(x + length, y, 0));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        super(geometry, material);
+
+        this._points = points;
+    }
+
+    set length(length) {
+        this._length = length;
+        this._points[1] = new THREE.Vector3(length, this.position.y, 0);
+        this.geometry.setFromPoints(this._points);
+    }
+
+    get length() {
+        return this._length;
+    }
+}
+
 class YAxis extends THREE.Line {
     constructor(x, y, length) {
         const material = new THREE.LineBasicMaterial({color: THREE.Color.NAMES['green'], linewidth: 1});
@@ -44,32 +69,43 @@ class Circle extends THREE.Line {
         // Create the final object to add to the scene
         super(geometry, material);
 
+        this.r = r;
+
         this.points = points;
     }
 }
 
 class PointOnCircleMarker extends THREE.Group {
     constructor(circle) {
-        const curve = new THREE.EllipseCurve(
-            0, 0,            // ax, aY
-            0.05, 0.05,           // xRadius, yRadius
-            0, 2 * Math.PI,  // aStartAngle, aEndAngle
-            false,            // aClockwise
-            0                 // aRotation
-        );
-
-        const points = curve.getPoints(16);
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-        const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
-
-        // Create the final object to add to the scene
         super();
 
-        this.circle = circle;
-        this.index = 0;
+        { // This is the little circle.
+            const curve = new THREE.EllipseCurve(
+                0, 0,            // ax, aY
+                0.05, 0.05,           // xRadius, yRadius
+                0, 2 * Math.PI,  // aStartAngle, aEndAngle
+                false,            // aClockwise
+                0                 // aRotation
+            );
 
-        this.add(new THREE.Line(geometry, material));
+            const points = curve.getPoints(16);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+            this.circle = circle;
+            this.index = 0;
+            this.add(new THREE.Line(geometry, material));
+        }
+
+        { // This is the x-half-axis
+            this.xHalfAxis = new XHalfAxis(0, 0, 0);
+            this.add(this.xHalfAxis)
+        }
+
+        { // This the y-half-axis
+
+        }
     }
 
     moveToNextPoint() {
@@ -79,6 +115,8 @@ class PointOnCircleMarker extends THREE.Group {
         }
         this.position.x = this.circle.points[this.index].x;
         this.position.y = this.circle.points[this.index].y;
+
+        this.xHalfAxis.length = -this.circle.points[this.index].x;
     }
 
 }
