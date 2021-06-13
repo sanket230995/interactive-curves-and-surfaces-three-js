@@ -30,7 +30,7 @@ class XHalfAxis extends THREE.Line {
 
     set length(length) {
         this._length = length;
-        this._points[1] = new THREE.Vector3(length, this.position.y, 0);
+        this._points[1] = new THREE.Vector3(this.position.x + length, this.position.y, 0);
         this.geometry.setFromPoints(this._points);
     }
 
@@ -171,18 +171,18 @@ class Cosine extends THREE.Line {
 class CosineGraph extends THREE.Group {
     constructor(x, y) {
         super();
-        this.add(new XAxis(x + 2, y, 2 * Math.PI));
-        this.add(new YAxis(x + 2, y, 2));
-        let cosine = new Cosine(x + 2 - Math.PI, y);
+        this.add(new XAxis(0, 0, 2 * Math.PI));
+        this.add(new YAxis(0, 0, 2));
+        let cosine = new Cosine(-Math.PI, 0);
         this.add(cosine);
 
-        // this.pointOnCosineMarker = new PointOnCosineMarker(cosine);
-        // this.pointOnCosineMarker.position.x = this.points[0].x;
-        // this.pointOnCosineMarker.position.y = this.points[0].y;
-        // this.add(this.pointOnCosineMarker);
-        //
-        // this.position.x = x;
-        // this.position.y = y;
+        this.pointOnCosineMarker = new PointOnCosineMarker(cosine);
+        this.pointOnCosineMarker.position.x = this.pointOnCosineMarker.cosine.points[0].x;
+        this.pointOnCosineMarker.position.y = this.pointOnCosineMarker.cosine.points[0].y;
+        this.add(this.pointOnCosineMarker);
+
+        this.position.x = x;
+        this.position.y = y;
     }
 }
 
@@ -319,7 +319,7 @@ function main() {
     const circleGraph = new CircleGraph(-3.5, 0);
     scene.add( circleGraph );
 
-    const cosineGraph = new CosineGraph( -0.5, 1.25);
+    const cosineGraph = new CosineGraph( 1.5, 1.25);
     scene.add(cosineGraph);
 
     const sineGraph = new SineGraph(-0.5, -1.25);
@@ -329,7 +329,7 @@ function main() {
         requestAnimationFrame( animate );
 
         circleGraph.pointOnCircleMarker.moveToNextPoint();
-        // cosineGraph.pointOnCosineMarker.moveToNextPoint();
+        cosineGraph.pointOnCosineMarker.moveToNextPoint();
         // sineGraph.pointOnSineMarker.moveToNextPoint();
 
         renderer.render( scene, camera );
