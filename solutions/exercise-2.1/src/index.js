@@ -100,6 +100,32 @@ class Circle extends THREE.Line {
     }
 }
 
+class CosineGraph extends THREE.Group {
+    constructor(x, y) {
+        function drawCosineCurve(x, y) {
+            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+            // const points = curve.getPoints(64)
+
+            const points = [];
+
+            for (let i = 0; i <= 64; i++) {
+                points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.cos(2 * Math.PI * i / 64), 0));
+            }
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            // Create the final object to add to the scene
+            return new THREE.Line(geometry, material);
+        }
+
+        super();
+        this.add(new XAxis(x + 2, y, 2 * Math.PI));
+        this.add(new YAxis(x + 2, y, 2));
+        this.add(drawCosineCurve(x + 2 - Math.PI, y));
+    }
+}
+
 class PointOnCircleMarker extends THREE.Group {
     constructor(circle) {
         super();
@@ -189,33 +215,6 @@ class CircleGraph extends THREE.Group {
 }
 
 function main() {
-    function drawCosineGraph(x, y) {
-        function drawCosineCurve(x, y) {
-            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
-
-            // const points = curve.getPoints(64)
-
-            const points = [];
-
-            for (let i = 0; i <= 64; i++) {
-                points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.cos(2 * Math.PI * i / 64), 0));
-            }
-
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-            // Create the final object to add to the scene
-            return new THREE.Line(geometry, material);
-        }
-
-        let group = new THREE.Group();
-
-        group.add(new XAxis(x + 2, y, 2 * Math.PI));
-        group.add(new YAxis(x + 2, y, 2));
-        group.add(drawCosineCurve(x + 2 - Math.PI, y));
-
-        return group;
-    }
-
     function drawSineGraph(x, y) {
         function drawSine(x, y) {
             const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
@@ -260,12 +259,12 @@ function main() {
     document.body.appendChild( renderer.domElement );
 
     const circleGraph = new CircleGraph(-3.5, 0);
-
     scene.add( circleGraph );
-    scene.add(drawCosineGraph(-0.5, 1.25));
+
+    const cosineGraph = new CosineGraph( -0.5, 1.25);
+    scene.add(cosineGraph);
+
     scene.add(drawSineGraph(-0.5, -1.25));
-
-
 
     const animate = function () {
         requestAnimationFrame( animate );
