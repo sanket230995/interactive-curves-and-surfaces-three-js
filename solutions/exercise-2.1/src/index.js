@@ -214,8 +214,8 @@ class CircleGraph extends THREE.Group {
     }
 }
 
-function main() {
-    function drawSineGraph(x, y) {
+class SineGraph extends THREE.Group {
+    constructor(x, y) {
         function drawSine(x, y) {
             const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
 
@@ -233,16 +233,14 @@ function main() {
             return new THREE.Line(geometry, material);
         }
 
-        let group = new THREE.Group();
-
-        group.add(new XAxis(x + 2, y, 2 * Math.PI));
-        group.add(new YAxis(x + 2, y, 2));
-        group.add(drawSine(x + 2 - Math.PI, y, 4));
-
-        return group;
+        super();
+        this.add(new XAxis(x + 2, y, 2 * Math.PI));
+        this.add(new YAxis(x + 2, y, 2));
+        this.add(drawSine(x + 2 - Math.PI, y, 4));
     }
+}
 
-
+function main() {
     document.body.style.margin = "0";
     document.body.style.padding = "0";
     document.body.style.overflow = "hidden";
@@ -264,7 +262,8 @@ function main() {
     const cosineGraph = new CosineGraph( -0.5, 1.25);
     scene.add(cosineGraph);
 
-    scene.add(drawSineGraph(-0.5, -1.25));
+    const sineGraph = new SineGraph(-0.5, -1.25);
+    scene.add(sineGraph);
 
     const animate = function () {
         requestAnimationFrame( animate );
