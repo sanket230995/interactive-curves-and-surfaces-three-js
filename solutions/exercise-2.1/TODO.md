@@ -1,7 +1,4 @@
-Code the static font parts of the thing.
+Add text and dat.gui
 
-Code the dynamic pointOnCircleGraphMarker.
 
-Code the dynamic pointOnCosineGraphMarker.
 
-Code the dynamic pointOnSineGraphMarker.
