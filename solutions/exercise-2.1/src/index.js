@@ -274,6 +274,54 @@ class CircleGraph extends THREE.Group {
     }
 }
 
+class PointOnSineMarker extends THREE.Group {
+    constructor(sine) {
+        super();
+        this.sine = sine;
+        this.index = 0;
+
+        { // This is the little circle.
+            const curve = new THREE.EllipseCurve(
+                0, 0,            // ax, aY
+                0.05, 0.05,           // xRadius, yRadius
+                0, 2 * Math.PI,  // aStartAngle, aEndAngle
+                false,            // aClockwise
+                0                 // aRotation
+            );
+
+            const points = curve.getPoints(16);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+            this.add(new THREE.Line(geometry, material));
+        }
+
+        { // This is the x-half-axis
+            this.xHalfAxis = new XHalfAxis(0, 0, 0);
+            this.add(this.xHalfAxis)
+        }
+
+        { // This the y-half-axis
+            this.yHalfAxis = new YHalfAxis(0, 0, 0);
+            this.add(this.yHalfAxis)
+        }
+    }
+
+    moveToNextPoint() {
+        this.index++;
+        if (this.index >= this.sine.points.length) {
+            this.index = 0;
+        }
+        this.position.x = this.sine.points[this.index].x;
+        this.position.y = this.sine.points[this.index].y;
+
+        this.xHalfAxis.length = -this.sine.points[this.index].x;
+        this.yHalfAxis.length = -this.sine.points[this.index].y;
+    }
+
+}
+
 class Sine extends THREE.Line {
     constructor(x, y) {
         const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
@@ -299,9 +347,19 @@ class Sine extends THREE.Line {
 class SineGraph extends THREE.Group {
     constructor(x, y) {
         super();
-        this.add(new XAxis(x + 2, y, 2 * Math.PI));
-        this.add(new YAxis(x + 2, y, 2));
-        this.add(new Sine(x + 2 - Math.PI, y, 4));
+        this.add(new XAxis(0, 0, 2 * Math.PI));
+        this.add(new YAxis(0, 0, 2));
+        let sine = new Sine(-Math.PI, 0, 4);
+        this.add(sine);
+
+        this.pointOnSineMarker = new PointOnSineMarker(sine);
+        this.pointOnSineMarker.position.x = this.pointOnSineMarker.sine.points[0].x;
+        this.pointOnSineMarker.position.y = this.pointOnSineMarker.sine.points[0].y;
+        this.add(this.pointOnSineMarker);
+
+        this.position.x = x;
+        this.position.y = y;
+
     }
 }
 
@@ -327,7 +385,7 @@ function main() {
     const cosineGraph = new CosineGraph( 1.5, 1.25);
     scene.add(cosineGraph);
 
-    const sineGraph = new SineGraph(-0.5, -1.25);
+    const sineGraph = new SineGraph(1.5, -1.25);
     scene.add(sineGraph);
 
     const animate = function () {
@@ -335,7 +393,7 @@ function main() {
 
         circleGraph.pointOnCircleMarker.moveToNextPoint();
         cosineGraph.pointOnCosineMarker.moveToNextPoint();
-        // sineGraph.pointOnSineMarker.moveToNextPoint();
+        sineGraph.pointOnSineMarker.moveToNextPoint();
 
         renderer.render( scene, camera );
     };
