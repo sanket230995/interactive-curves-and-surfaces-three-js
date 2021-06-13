@@ -100,6 +100,54 @@ class Circle extends THREE.Line {
     }
 }
 
+class PointOnCosineMarker extends THREE.Group {
+    constructor(cosineGraph) {
+        super();
+
+        { // This is the little circle.
+            const curve = new THREE.EllipseCurve(
+                0, 0,            // ax, aY
+                0.05, 0.05,           // xRadius, yRadius
+                0, 2 * Math.PI,  // aStartAngle, aEndAngle
+                false,            // aClockwise
+                0                 // aRotation
+            );
+
+            const points = curve.getPoints(16);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+
+            this.cosineGraph = cosineGraph;
+            this.index = 0;
+            this.add(new THREE.Line(geometry, material));
+        }
+
+        { // This is the x-half-axis
+            this.xHalfAxis = new XHalfAxis(0, 0, 0);
+            this.add(this.xHalfAxis)
+        }
+
+        { // This the y-half-axis
+            this.yHalfAxis = new YHalfAxis(0, 0, 0);
+            this.add(this.yHalfAxis)
+        }
+    }
+
+    moveToNextPoint() {
+        this.index++;
+        if (this.index >= this.cosineGraph.points.length) {
+            this.index = 0;
+        }
+        this.position.x = this.cosineGraph.points[this.index].x;
+        this.position.y = this.cosineGraph.points[this.index].y;
+
+        this.xHalfAxis.length = -this.cosineGraph.points[this.index].x;
+        this.yHalfAxis.length = -this.cosineGraph.points[this.index].y;
+    }
+
+}
+
 class CosineGraph extends THREE.Group {
     constructor(x, y) {
         function drawCosineCurve(x, y) {
@@ -115,7 +163,6 @@ class CosineGraph extends THREE.Group {
 
             const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
-            // Create the final object to add to the scene
             return new THREE.Line(geometry, material);
         }
 
@@ -123,6 +170,15 @@ class CosineGraph extends THREE.Group {
         this.add(new XAxis(x + 2, y, 2 * Math.PI));
         this.add(new YAxis(x + 2, y, 2));
         this.add(drawCosineCurve(x + 2 - Math.PI, y));
+
+//         this.pointOnCosineMarker = new PointOnCosineMarker(this);
+//         this.pointOnCosineMarker.position.x = this.points[0].x;
+//         this.pointOnCosineMarker.position.y = this.points[0].y;
+//         this.add(this.pointOnCosineMarker);
+//
+//         this.position.x = x;
+//         this.position.y = y;
+//
     }
 }
 
@@ -269,6 +325,8 @@ function main() {
         requestAnimationFrame( animate );
 
         circleGraph.pointOnCircleMarker.moveToNextPoint();
+        // cosineGraph.pointOnCosineMarker.moveToNextPoint();
+        // sineGraph.pointOnSineMarker.moveToNextPoint();
 
         renderer.render( scene, camera );
     };
