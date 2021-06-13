@@ -274,29 +274,34 @@ class CircleGraph extends THREE.Group {
     }
 }
 
-class SineGraph extends THREE.Group {
+class Sine extends THREE.Line {
     constructor(x, y) {
-        function drawSine(x, y) {
-            const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
+        const material = new THREE.LineBasicMaterial({color: 0, linewidth: 1});
 
-            // const points = curve.getPoints(64)
+        // const points = curve.getPoints(64)
 
-            const points = [];
+        const points = [];
 
-            for (let i = 0; i <= 64; i++) {
-                points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.sin(2 * Math.PI * i / 64), 0));
-            }
-
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-            // Create the final object to add to the scene
-            return new THREE.Line(geometry, material);
+        for (let i = 0; i <= 64; i++) {
+            points.push(new THREE.Vector3(x + 2 * Math.PI * i / 64, y - Math.sin(2 * Math.PI * i / 64), 0));
         }
 
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        // Create the final object to add to the scene
+        super(geometry, material);
+
+        this.points = points;
+    }
+
+}
+
+class SineGraph extends THREE.Group {
+    constructor(x, y) {
         super();
         this.add(new XAxis(x + 2, y, 2 * Math.PI));
         this.add(new YAxis(x + 2, y, 2));
-        this.add(drawSine(x + 2 - Math.PI, y, 4));
+        this.add(new Sine(x + 2 - Math.PI, y, 4));
     }
 }
 
