@@ -17,5 +17,8 @@ Text:
 
 - [ ] The [**html-webpack-plugin**](https://github.com/jantimon/html-webpack-plugin) usage works, but seems kind of weird, because I'm importing `katex/dist/katex.css` in `index.js`, which just seems off.  I feel more like I'd like to have `katex/dist/katex.css` as part of a `<link>` tag in the `index.html`.  Making a template `index.html` would probably be the easiest answer.
 
-   
+- [ ] Also, I don't understand why `unproject()` worked.  Maybe it really didn't, but I've only fooled myself into thinking it did.
 
+- [ ] `project()` gave projects with NaN and Infinity in it.
+
+   
