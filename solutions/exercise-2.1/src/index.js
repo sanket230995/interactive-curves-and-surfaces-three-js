@@ -1,4 +1,7 @@
+
 import * as THREE from 'three';
+
+import 'katex/dist/katex.css'
 import katex from 'katex';
 
 class XAxis extends THREE.Line {
@@ -234,6 +237,41 @@ class PointOnCircleMarker extends THREE.Group {
 
 }
 
+function drawKatex(tex, x, y, z) {
+    // Use HTML/CSS to create text
+
+    // create a new div element
+    const div = document.createElement("div");
+    document.body.appendChild(div);
+
+    // and give it some content
+    katex.render(tex, div, {
+        throwOnError: false
+    });
+
+    div.style.position = 'absolute';
+
+    // get the normalized screen coordinate of that position
+    // x and y will be in the -1 to +1 range with x = -1 being
+    // on the left and y = -1 being on the bottom
+    let tempV = new THREE.Vector3(x, y, 0);
+    tempV.unproject(window.camera);
+
+    // convert the normalized position to CSS coordinates
+    div.style.left = ((tempV.x *  .5 + .5) * window.innerWidth - div.offsetWidth / 2 + 3).toString() + 'px';
+    div.style.top = ((tempV.y * -.5 + .5) * window.innerHeight - div.offsetHeight / 2 - 1).toString() + 'px';
+
+    console.log(tempV);
+    console.log(window.innerWidth + ", " + window.innerHeight);
+    console.log(div.offsetWidth + ", " + div.offsetHeight);
+
+    //div.style.width = '100%';
+    //div.style.textAlign = 'center';
+    div.style.zIndex = 10;
+    //div.style.display = 'block';
+
+}
+
 class CircleGraph extends THREE.Group {
     constructor(x, y) {
         super();
@@ -251,26 +289,8 @@ class CircleGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
-        // Use HTML/CSS to create text
-
-        // create a new div element
-        // const div = document.createElement("div");
-        // document.body.appendChild(div);
-
-        // div.style.position = 'absolute';
-        // div.style.top = '30px';
-        // div.style.left = '50px';
-        // //div.style.width = '100%';
-        // //div.style.textAlign = 'center';
-        // div.style.zIndex = 10;
-        // //div.style.display = 'block';
-        //
-        // // and give it some content
-        // katex.render('c = \\pm\\sqrt{a^2 + b^2}', div, {
-        //     throwOnError: false
-        // });
-
-        // add the newly created element and its content into the DOM
+        drawKatex('x', x + 1.1, y, 0);
+        drawKatex('y', x, y + 2, 0);
     }
 }
 
@@ -341,7 +361,6 @@ class Sine extends THREE.Line {
 
         this.points = points;
     }
-
 }
 
 class SineGraph extends THREE.Group {
@@ -369,10 +388,12 @@ function main() {
     document.body.style.overflow = "hidden";
 
     const scene = new THREE.Scene();
+    window.scene = scene;
     scene.background = new THREE.Color(THREE.Color.NAMES['white']);
 
     // CAMERA
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    window.camera = camera;
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({antialias: true});
@@ -387,6 +408,10 @@ function main() {
 
     const sineGraph = new SineGraph(1.5, -1.25);
     scene.add(sineGraph);
+
+    // drawKatex("x", 0, 0, 0);
+    // drawKatex("x", 1, 0, 0);
+    // drawKatex("x", 0, 1, 0);
 
     const animate = function () {
         requestAnimationFrame( animate );

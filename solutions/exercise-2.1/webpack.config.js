@@ -10,6 +10,23 @@ module.exports = {
     index: './src/index.js',
   },
   mode: 'development',
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.(svg|gif|png|eot|woff|woff2|ttf)$/,
+        use: [
+          'url-loader',
+        ],
+      },
+    ],
+  },
   output: {
     clean: true,
     filename: '[name].bundle.js',

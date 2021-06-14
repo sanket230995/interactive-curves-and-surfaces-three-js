@@ -2,3 +2,20 @@ Add text and dat.gui
 
 
 
+```mermaid
+graph LR
+A(DOT language ASCII file) --> B
+B((viz.js)) --> C
+C(image of graph in browser)
+```
+
+
+
+Text:
+
+- [ ] The y position of drawKatex() seems to render at 1/2 the expected rate.  I.e. A '0' at (1, 1) looks more like an '0' at (1, 0.5).  Doubling the y value passed in gives about the right answer.
+
+- [ ] The [**html-webpack-plugin**](https://github.com/jantimon/html-webpack-plugin) usage works, but seems kind of weird, because I'm importing `katex/dist/katex.css` in `index.js`, which just seems off.  I feel more like I'd like to have `katex/dist/katex.css` as part of a `<link>` tag in the `index.html`.  Making a template `index.html` would probably be the easiest answer.
+
+   
+
