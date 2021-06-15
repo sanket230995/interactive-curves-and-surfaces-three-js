@@ -295,8 +295,8 @@ class CircleGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
-        drawKatex('x', x + 1.1, y, 0);
-        drawKatex('y', x, y + 2, 0);
+        drawKatex('x', x + 1.7, y, 0);
+        drawKatex('y', x + 0.8, y + 2, 0);
     }
 }
 
