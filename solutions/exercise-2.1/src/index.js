@@ -190,7 +190,7 @@ class CosineGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
-        drawKatex('y = \\cos x', x - Math.PI + 1, y + 1.25, 0);
+        drawKatex('x = \\cos t', x - Math.PI + 1, y + 1.25, 0);
 
     }
 }
@@ -385,7 +385,7 @@ class SineGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
-        drawKatex('y = \\sin x', x - Math.PI + 1, y - 0.5, 0);
+        drawKatex('y = \\sin t', x - Math.PI + 1, y - 0.5, 0);
     }
 }
 

@@ -6,7 +6,7 @@ A parametric curve that lies in a plane is defined by two functions, $x(t)$ and 
 
 As $t$ varies from ${-\pi}$ to ${\pi}$ , a circle is swept out by $(x(t), y(t))$.
 
-![1623726374345](.md/ 5 Defining the Parametric Curve/1623726374345.png)
+![1623726919839](.md/ 5 Defining the Parametric Curve/1623726919839.png)
 
 ​									***Image 2.5***
 
