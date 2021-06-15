@@ -1,6 +1,8 @@
 
 import * as THREE from 'three';
 
+import dat from 'dat.gui';
+
 import 'katex/dist/katex.css'
 import katex from 'katex';
 
@@ -405,6 +407,10 @@ function main() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
+    let gui = new dat.GUI({name: 'exercise-2.1'}); // It attaches itself to body at just the right place (top right).
+    let isAnimated = {'Animate?': true};
+    gui.add(isAnimated, 'Animate?');
+
     const circleGraph = new CircleGraph(-3.5, 0);
     scene.add( circleGraph );
 
@@ -414,16 +420,13 @@ function main() {
     const sineGraph = new SineGraph(1.5, -1.25);
     scene.add(sineGraph);
 
-    // drawKatex("x", 0, 0, 0);
-    // drawKatex("x", 1, 0, 0);
-    // drawKatex("x", 0, 1, 0);
-
     const animate = function () {
-        requestAnimationFrame( animate );
-
-        circleGraph.pointOnCircleMarker.moveToNextPoint();
-        cosineGraph.pointOnCosineMarker.moveToNextPoint();
-        sineGraph.pointOnSineMarker.moveToNextPoint();
+        requestAnimationFrame(animate);
+        if (isAnimated['Animate?']) {
+            circleGraph.pointOnCircleMarker.moveToNextPoint();
+            cosineGraph.pointOnCosineMarker.moveToNextPoint();
+            sineGraph.pointOnSineMarker.moveToNextPoint();
+        }
 
         renderer.render( scene, camera );
     };
