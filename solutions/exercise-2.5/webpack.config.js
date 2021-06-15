@@ -34,7 +34,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'exercise-2.1',
+      title: 'exercise-2.5',
     }),
   ],
 

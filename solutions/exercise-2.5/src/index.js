@@ -407,7 +407,7 @@ function main() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    let gui = new dat.GUI({name: 'exercise-2.1'}); // It attaches itself to body at just the right place (top right).
+    let gui = new dat.GUI({name: 'exercise-2.5'}); // It attaches itself to body at just the right place (top right).
     let isAnimated = {'Animate?': true};
     gui.add(isAnimated, 'Animate?');
 
