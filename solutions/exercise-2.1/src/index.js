@@ -107,7 +107,8 @@ class PointOnCosineMarker extends THREE.Group {
     constructor(cosine) {
         super();
         this.cosine = cosine;
-        this.index = 0;
+        this.index = ~~(cosine.points.length / 2);
+        console.log(this.index);
 
         { // This is the little circle.
             const curve = new THREE.EllipseCurve(
@@ -186,6 +187,9 @@ class CosineGraph extends THREE.Group {
 
         this.position.x = x;
         this.position.y = y;
+
+        drawKatex('y = \\cos x', x - Math.PI + 1, y + 1.25, 0);
+
     }
 }
 
@@ -261,9 +265,9 @@ function drawKatex(tex, x, y, z) {
     div.style.left = ((tempV.x *  .5 + .5) * window.innerWidth - div.offsetWidth / 2 + 3).toString() + 'px';
     div.style.top = ((tempV.y * -.5 + .5) * window.innerHeight - div.offsetHeight / 2 - 1).toString() + 'px';
 
-    console.log(tempV);
-    console.log(window.innerWidth + ", " + window.innerHeight);
-    console.log(div.offsetWidth + ", " + div.offsetHeight);
+    //console.log(tempV);
+    //console.log(window.innerWidth + ", " + window.innerHeight);
+    //console.log(div.offsetWidth + ", " + div.offsetHeight);
 
     //div.style.width = '100%';
     //div.style.textAlign = 'center';
@@ -298,7 +302,7 @@ class PointOnSineMarker extends THREE.Group {
     constructor(sine) {
         super();
         this.sine = sine;
-        this.index = 0;
+        this.index = ~~(sine.points.length / 2);
 
         { // This is the little circle.
             const curve = new THREE.EllipseCurve(
@@ -379,6 +383,7 @@ class SineGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
+        drawKatex('y = \\sin x', x - Math.PI + 1, y - 0.5, 0);
     }
 }
 
