@@ -1,14 +1,3 @@
-Now need dat.gui
-
-
-
-```mermaid
-graph LR
-A(DOT language ASCII file) --> B
-B((viz.js)) --> C
-C(image of graph in browser)
-```
-
 
 
 Text:
@@ -22,3 +11,4 @@ Text:
 - [ ] `project()` gave projects with NaN and Infinity in it.
 
    
+
