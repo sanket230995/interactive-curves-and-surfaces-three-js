@@ -110,7 +110,6 @@ class PointOnCosineMarker extends THREE.Group {
         super();
         this.cosine = cosine;
         this.index = ~~(cosine.points.length / 2);
-        console.log(this.index);
 
         { // This is the little circle.
             const curve = new THREE.EllipseCurve(
@@ -190,7 +189,7 @@ class CosineGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
-        drawKatex('x = \\cos t', x - Math.PI + 1, y + 1.25, 0);
+        drawKatex('x = \\cos t', x - Math.PI + 0.5, y + 0.15, 0);
 
     }
 }
@@ -243,12 +242,16 @@ class PointOnCircleMarker extends THREE.Group {
 
 }
 
+let textDivs = []
+
 function drawKatex(tex, x, y, z) {
     // Use HTML/CSS to create text
 
     // create a new div element
     const div = document.createElement("div");
     document.body.appendChild(div);
+    div.x = x;
+    div.y = y;
 
     // and give it some content
     katex.render(tex, div, {
@@ -256,26 +259,13 @@ function drawKatex(tex, x, y, z) {
     });
 
     div.style.position = 'absolute';
-
-    // get the normalized screen coordinate of that position
-    // x and y will be in the -1 to +1 range with x = -1 being
-    // on the left and y = -1 being on the bottom
-    let tempV = new THREE.Vector3(x, y, 0);
-    tempV.unproject(window.camera);
-
-    // convert the normalized position to CSS coordinates
-    div.style.left = ((tempV.x *  .5 + .5) * window.innerWidth - div.offsetWidth / 2 + 3).toString() + 'px';
-    div.style.top = ((tempV.y * -.5 + .5) * window.innerHeight - div.offsetHeight / 2 - 1).toString() + 'px';
-
-    //console.log(tempV);
-    //console.log(window.innerWidth + ", " + window.innerHeight);
-    //console.log(div.offsetWidth + ", " + div.offsetHeight);
-
-    //div.style.width = '100%';
-    //div.style.textAlign = 'center';
     div.style.zIndex = 10;
-    //div.style.display = 'block';
+    div.style.top = 0;
+    div.style.left = 0;
 
+    div.rendered = false;
+
+    textDivs.push(div);
 }
 
 class CircleGraph extends THREE.Group {
@@ -295,8 +285,8 @@ class CircleGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
-        drawKatex('x', x + 1.7, y, 0);
-        drawKatex('y', x + 0.8, y + 2, 0);
+        drawKatex('x', x + 1.1, y, 0);
+        drawKatex('y', x, y + 1.15, 0);
     }
 }
 
@@ -385,7 +375,7 @@ class SineGraph extends THREE.Group {
         this.position.x = x;
         this.position.y = y;
 
-        drawKatex('y = \\sin t', x - Math.PI + 1, y - 0.5, 0);
+        drawKatex('y = \\sin t', x - Math.PI + 0.5, y + 0.15, 0);
     }
 }
 
@@ -395,12 +385,10 @@ function main() {
     document.body.style.overflow = "hidden";
 
     const scene = new THREE.Scene();
-    window.scene = scene;
     scene.background = new THREE.Color(THREE.Color.NAMES['white']);
 
     // CAMERA
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    window.camera = camera;
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({antialias: true});
@@ -426,6 +414,26 @@ function main() {
             circleGraph.pointOnCircleMarker.moveToNextPoint();
             cosineGraph.pointOnCosineMarker.moveToNextPoint();
             sineGraph.pointOnSineMarker.moveToNextPoint();
+        }
+
+        for (let i = 0; i < textDivs.length; i++) {
+            let div = textDivs[i];
+
+            if (!div.rendered) {
+                let tempV = new THREE.Vector3(div.x, div.y, 0);
+                //console.log('before: ' + tempV.x + ', ' + tempV.y + ', ' + tempV.z);
+                tempV.project(camera);
+                //console.log('after: ' + tempV.x + ', ' + tempV.y + ', ' + tempV.z);
+
+                if (tempV.x != -Infinity) {
+                    // convert the normalized position to CSS coordinates
+                    div.x1 = (tempV.x * .5 + .5) * window.innerWidth - div.offsetWidth / 2;
+                    div.y1 = (tempV.y * -.5 + .5) * window.innerHeight - div.offsetHeight / 2;
+
+                    div.style.transform = `translate(${div.x1}px,${div.y1}px)`;
+                    div.rendered = true;
+                }
+            }
         }
 
         renderer.render( scene, camera );
