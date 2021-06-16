@@ -1,4 +1,4 @@
-
+Do 7 TBD Types of Parametric Functions: 1D Polynomial Functions in XYZ Form.
 
 
 
