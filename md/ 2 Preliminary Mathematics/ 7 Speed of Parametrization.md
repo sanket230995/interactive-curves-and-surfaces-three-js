@@ -1,3 +1,15 @@
+
+
+For example, the circle can also be given by allowing t to vary from -infinity to +infinity in the following functions:
+
+$$x(t)=\frac{1-t^2}{1+t^2},  y(t)=\frac{2t}{1+t^2}\tag{2.6}$$
+
+**Exercise 2.6**
+
+Verify for yourself that the functions in equation 2.2 do indeed generate a circle by  writing a program to plot points $(x(t), y(t))$ for a range of values of $t$.
+
+
+
 ### Velocity of Parametrization
 
 A good physical model for parametric curves is that of a moving particle.  In this model, the parameter $t$ represents time. At any time $t$ the position of the particle is
