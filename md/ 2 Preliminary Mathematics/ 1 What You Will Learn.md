@@ -5,3 +5,17 @@
   * The idea of continuity, to ensure that curves and surfaces join together smoothly,
   * an illustration of linear interpolation, one of the most fundamental concepts in CAGD.
 
+
+
+**Exercise 2.1**
+
+Write an application in threejs using `template/` as a starting point.
+
+If successful, you should see a black screen with a sort of rotating cube that looks like this:
+
+![1629779170492](.md/ 1 What You Will Learn/1629779170492.png)
+
+There are detailed instructions in `template/README.md` describing how to create a new application using `template/` as a starting point.
+
+Alternatively, you can consult `tutorials/Exercise 2.1` which explains how we did this exercise.
+
