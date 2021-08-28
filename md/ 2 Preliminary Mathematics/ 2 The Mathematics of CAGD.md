@@ -8,3 +8,13 @@ This book develops the mathematics in a step-by-step fashion, and does not deman
 * Equations in parametric form.
 * Basic calculus. 
 
+
+
+**Exercise 2.2.1**
+
+Write an application in threejs using `template/` as a starting point.  The application should display at least one white point on a black background.
+
+
+
+
+
