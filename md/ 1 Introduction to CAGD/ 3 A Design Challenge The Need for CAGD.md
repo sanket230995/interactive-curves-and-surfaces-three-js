@@ -27,7 +27,7 @@ You will need to refer to the three.js API documentation for version r124 a lot.
 
 3) If you haven't already, install nodejs from https://nodejs.org
 
-4) Open a bash shell, and `cd three.js
+4) Open a bash shell, and `cd three.js`
 
 5) `npm i http-server -g`
 
