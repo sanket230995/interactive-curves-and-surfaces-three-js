@@ -37,4 +37,6 @@ You will need to refer to the three.js API documentation for version r124 a lot.
 
    ![image-20210829213828210](.md/ 3 A Design Challenge The Need for CAGD/image-20210829213828210.png)
 
-8) Use ^F to search the Reference docs.
+8) Use ^F to search the Reference docs for the word "points".
+
+9) Show your findings to your tutor, and explain how you might use what you found.
