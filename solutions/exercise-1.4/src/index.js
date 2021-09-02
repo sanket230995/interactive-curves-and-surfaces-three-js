@@ -17,7 +17,7 @@ function main() {
     const geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3( 0, 0, 0));
 
-    const material = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false, color: 0x888888 } );
+    const material = new THREE.PointsMaterial( { size: 10, sizeAttenuation: false, color: 0xFFFFFF } );
 
     const points = new THREE.Points( geometry, material );
 
