@@ -17,9 +17,9 @@ The technical person often benefits from these intuitive and visually related to
 
 
 
-You will need to refer to the three.js API documentation for version r124 a lot.  Since https://threejs.org has the latest documentation, it might differ from the documentation for r124.  So you'll need a local copy of r124 to refer to.
-
 ### Exercise 1.3 ###
+
+You will need to refer to the three.js API documentation for version r124 a lot.  Since https://threejs.org has the latest documentation, it might differ from the documentation for r124.  So you'll need a local copy of r124 to refer to.
 
 1) Clone three.js from https://github.com/pflagerd/three.js
 
@@ -27,7 +27,7 @@ You will need to refer to the three.js API documentation for version r124 a lot.
 
 3) If you haven't already, install nodejs from https://nodejs.org
 
-4) Open a bash shell, and `cd three.js
+4) Open a bash shell, and `cd three.js`
 
 5) `npm i http-server -g`
 
@@ -37,4 +37,6 @@ You will need to refer to the three.js API documentation for version r124 a lot.
 
    ![image-20210829213828210](.md/ 3 A Design Challenge The Need for CAGD/image-20210829213828210.png)
 
-8) Use ^F to search the Reference docs.
+8) Use ^F to search the Reference docs for the word "points".
+
+9) Show your findings to your tutor, and explain how you might use what you found.

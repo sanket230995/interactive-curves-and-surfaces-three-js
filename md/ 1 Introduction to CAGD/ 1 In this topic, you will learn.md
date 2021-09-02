@@ -6,6 +6,10 @@
 
 
 
+
+
+### Exercise 1.1
+
 We will be using JavaScript for our exercises.  In particular, we will be using the JavaScript embedded in browsers such as Microsoft Edge, Google Chrome and Mozilla Firefox.
 
 When embedded in a browser, JavaScript gets a whole range of APIs, including WebGL.  But we won't be using WebGL directly (at least not at first), because it is too low-level for most of what we want to do.  Instead we'll be using a wonderful JavaScript 3D API built on top of WebGL.  This JavaScript 3D API is called [**three.js**](https://threejs.org/).
@@ -16,13 +20,11 @@ CAUTION:  For our exercises, we'll be using [three.js](https://threejs.org/) ver
 
 Thankfully, because [three.js](https://threejs.org/) is open source, ALL prior versions are available in its git repository.
 
+1. Navigate to the [three.js](https://threejs.org/) website and explore some of the projects in the gallery there.  
 
+2. Pick one that appeals to you and show it to your tutor.  
 
-### Exercise 1.1
+3. Show your tutor what specifically impresses you about it.
 
-Navigate to the [three.js](https://threejs.org/) website and explore some of the projects in the gallery there.  
-
-1) Pick one that appeals to you and show it to your tutor.  
-2) Show your tutor what specifically impresses you about it.
-3) See if you find the version number of the latest version of [three.js](https://threejs.org/).  Show your tutor
+4. See if you find the version number of the latest version of [three.js](https://threejs.org/).  Show your tutor
 
