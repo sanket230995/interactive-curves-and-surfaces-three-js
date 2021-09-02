@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   devServer: {
     contentBase: './dist',
+    port: '8151'
   },
   devtool: 'inline-source-map',
   entry: {
@@ -12,13 +13,12 @@ module.exports = {
   mode: 'development',
   output: {
     clean: true,
-    filename: 'bundle.js',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'template',
+      title: 'exercise-1.5.1',
     }),
   ],
 
