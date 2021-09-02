@@ -17,9 +17,9 @@ The technical person often benefits from these intuitive and visually related to
 
 
 
-You will need to refer to the three.js API documentation for version r124 a lot.  Since https://threejs.org has the latest documentation, it might differ from the documentation for r124.  So you'll need a local copy of r124 to refer to.
-
 ### Exercise 1.3 ###
+
+You will need to refer to the three.js API documentation for version r124 a lot.  Since https://threejs.org has the latest documentation, it might differ from the documentation for r124.  So you'll need a local copy of r124 to refer to.
 
 1) Clone three.js from https://github.com/pflagerd/three.js
 
